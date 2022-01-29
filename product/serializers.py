@@ -4,23 +4,21 @@ from statistics import mode
 from django.forms import ModelForm, models
 from rest_framework import serializers
 from sqlalchemy import true
-from .models import Product, Purchase, Sell
+from .models import Product, ProductOrdem
 
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['name', 'qtdP', 'qtdS', 'total']
+        fields = ['id', 'name', 'purchase', 'sales', 'qtdStock', 'cost', 'revenues', 'profit']
 
-class PurchaseSerializer(serializers.ModelSerializer):
+class ProductOrdemSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Purchase
-        fields = ['id', 'product', 'qtd']
+        model = ProductOrdem
+        fields = ['id', 'product', 'qtd', 'price', 'pOrS']
 
-class SellSerializer(serializers.ModelSerializer):
+
+class ProductListSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Sell
-        fields = ['id', 'product', 'qtd']
-
-
-
+        model = Product
+        fields = ['id', 'name']

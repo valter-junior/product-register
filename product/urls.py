@@ -1,12 +1,12 @@
 from django import views
 from django.urls import path
-from .views import ProductCreate, ProductList, PurchaseCreate, PurchaseList, SellCreate
+from .views import ProductCreate, MovementList, ProductList, ProductOrdemCreate, ProductOrdemList
 
 urlpatterns = [
-    path('purchase', PurchaseCreate.as_view(), name='create-purchase'),
     path('create', ProductCreate.as_view(), name='create-product'),
-    path('', ProductList.as_view()),
-    path('purchase/', PurchaseList.as_view()),
-    path('sell', SellCreate.as_view())
+    path('list', ProductList.as_view(), name='list-product'),
+    path('movement', MovementList.as_view()),
+    path('ordem', ProductOrdemCreate.as_view(), name='create-purchase'),
+    path('ordem-list', ProductOrdemList.as_view()),
     
 ]

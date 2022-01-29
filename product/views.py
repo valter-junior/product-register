@@ -1,35 +1,50 @@
-from itertools import product
-from xml.dom.minidom import Element
-from django.shortcuts import render
-from sqlalchemy import null
-from .models import Product, Purchase, Sell
-from rest_framework.views import APIView
+from .models import Product, ProductOrdem
 from rest_framework import generics
-from .serializers import ProductSerializer, PurchaseSerializer, SellSerializer
-from rest_framework.response import Response
-
-
+from .serializers import ProductOrdemSerializer, ProductSerializer, ProductListSerializer
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 class ProductCreate(generics.CreateAPIView):
+
+    permission_classes = (IsAuthenticated,)
+    authentication_class = JSONWebTokenAuthentication
+
     queryset = Product.objects.all(),
     serializer_class = ProductSerializer
-      
+
+class ProductList(generics.ListAPIView):
+
+    permission_classes = (IsAuthenticated,)
+    authentication_class = JSONWebTokenAuthentication
+
+    queryset = Product.objects.all().values('id', 'name')
+    serializer_class = ProductListSerializer
 
     
-class ProductList(generics.ListAPIView):
-    queryset = Product.objects.all()
+class MovementList(generics.ListAPIView):
+
+    permission_classes = (IsAuthenticated,)
+    authentication_class = JSONWebTokenAuthentication
+
+    queryset = Product.objects.all().values('name', 'purchase', 'sales', 'qtdStock', 'cost', 'revenues', 'profit')
     serializer_class = ProductSerializer
     
-class PurchaseCreate(generics.CreateAPIView):
-    queryset = Purchase.objects.all()
-    serializer_class = PurchaseSerializer
+class ProductOrdemCreate(generics.CreateAPIView):
+
+    permission_classes = (IsAuthenticated,)
+    authentication_class = JSONWebTokenAuthentication
+
+    queryset = ProductOrdem.objects.all()
+    serializer_class = ProductOrdemSerializer
 
 
-class PurchaseList(generics.ListAPIView):
-    queryset = Purchase.objects.all()
-    serializer_class = PurchaseSerializer
+class ProductOrdemList(generics.ListAPIView):
 
-class SellCreate(generics.CreateAPIView):
-    queryset = Sell.objects.all()
-    serializer_class = SellSerializer
+    permission_classes = (IsAuthenticated,)
+    authentication_class = JSONWebTokenAuthentication
+
+    queryset = ProductOrdem.objects.all()
+    serializer_class = ProductOrdemSerializer
+
+
 
