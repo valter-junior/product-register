@@ -1,6 +1,6 @@
-from itertools import product
+from lib2to3.pgen2.parse import ParseError
 from django.db import models
-from sqlalchemy import PrimaryKeyConstraint
+from rest_framework import serializers
 
 
 bnull = dict(blank=True, null=True)
@@ -9,12 +9,12 @@ objStatus = (('P', 'Purchase'), ('S', 'Sales'))
 
 class Product(models.Model):
     name = models.CharField(max_length=40, unique=True)
-    purchase = models.FloatField(**bnull)
-    sales = models.FloatField(**bnull)
-    qtdStock = models.FloatField(**bnull)
-    cost = models.FloatField(**bnull)
-    revenues = models.FloatField(**bnull)
-    profit = models.FloatField(**bnull)
+    purchase = models.FloatField(default=0.0)
+    sales = models.FloatField(default=0.0)
+    qtdStock = models.FloatField(default=0.0)
+    cost = models.FloatField(default=0.0)
+    revenues = models.FloatField(default=0.0)
+    profit = models.FloatField(default=0.0)
 
     def __str__(self):
         return self.name
@@ -35,11 +35,16 @@ class ProductOrdem(models.Model):
             self.product.save()
             super(ProductOrdem, self).save(force_insert, force_update, *args, **kwargs)
         elif self.pOrS == 'S':
-            self.product.sales += self.qtd
-            self.product.revenues += self.qtd * self.price
-            self.product.qtdStock = self.product.purchase - self.product.sales
-            self.product.profit = self.product.revenues - self.product.cost
-            self.product.save()
-            super(ProductOrdem, self).save(force_insert, force_update, *args, **kwargs)
+            if self.qtd <= self.product.qtdStock:          
+                self.product.sales += self.qtd
+                self.product.revenues += self.qtd * self.price
+                self.product.qtdStock = self.product.purchase - self.product.sales
+                self.product.profit = self.product.revenues - self.product.cost
+                self.product.save()
+                super(ProductOrdem, self).save(force_insert, force_update, *args, **kwargs)
+            elif self.qtd > self.product.qtdStock:
+                stock = self.product.qtdStock
+                raise serializers.ValidationError(f"Stock not available, quantity available is {stock}")
+                
 
     
