@@ -1,9 +1,3 @@
-from asyncio import exceptions
-from django.core.exceptions import ValidationError
-from django.shortcuts import get_object_or_404
-from rest_framework import status
-from rest_framework.permissions import AllowAny
-from httplib2 import Response
 from .models import Product, ProductOrdem
 from rest_framework import generics
 from .serializers import ProductOrdemSerializer, ProductSerializer, ProductListSerializer
@@ -52,5 +46,18 @@ class ProductOrdemList(generics.ListAPIView):
     queryset = ProductOrdem.objects.all()
     serializer_class = ProductOrdemSerializer
 
+class ProductUpdate(generics.RetrieveUpdateAPIView):
 
+    permission_classes = (IsAuthenticated,)
+    authentication_class = JSONWebTokenAuthentication
 
+    queryset = Product.objects.all()
+    serializer_class = ProductListSerializer
+
+class ProductDelete(generics.RetrieveDestroyAPIView):
+
+    permission_classes = (IsAuthenticated,)
+    authentication_class = JSONWebTokenAuthentication
+
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer

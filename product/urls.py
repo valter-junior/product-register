@@ -1,6 +1,5 @@
-from django import views
 from django.urls import path
-from .views import ProductCreate, MovementList, ProductList, ProductOrdemCreate, ProductOrdemList
+from .views import ProductCreate, MovementList, ProductDelete, ProductList, ProductOrdemCreate, ProductOrdemList, ProductUpdate
 
 urlpatterns = [
     path('create', ProductCreate.as_view(), name='create-product'),
@@ -8,5 +7,7 @@ urlpatterns = [
     path('movement', MovementList.as_view()),
     path('ordem', ProductOrdemCreate.as_view(), name='create-purchase'),
     path('ordem-list', ProductOrdemList.as_view()),
+    path('update/<int:pk>', ProductUpdate.as_view()),
+    path('delete/<int:pk>', ProductDelete.as_view())
     
 ]

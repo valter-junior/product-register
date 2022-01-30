@@ -1,4 +1,3 @@
-from lib2to3.pgen2.parse import ParseError
 from django.db import models
 from rest_framework import serializers
 
@@ -12,8 +11,8 @@ class Product(models.Model):
     purchase = models.FloatField(default=0.0)
     sales = models.FloatField(default=0.0)
     qtdStock = models.FloatField(default=0.0)
-    cost = models.FloatField(default=0.0)
     revenues = models.FloatField(default=0.0)
+    cost = models.FloatField(default=0.0)
     profit = models.FloatField(default=0.0)
 
     def __str__(self):
@@ -44,7 +43,7 @@ class ProductOrdem(models.Model):
                 super(ProductOrdem, self).save(force_insert, force_update, *args, **kwargs)
             elif self.qtd > self.product.qtdStock:
                 stock = self.product.qtdStock
-                raise serializers.ValidationError(f"Stock not available, quantity available is {stock}")
+                raise serializers.ValidationError(f"Stock not available, quantity available is {stock}, try again")
                 
 
     
