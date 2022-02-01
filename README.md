@@ -48,4 +48,5 @@ cd /frontend
 
 git checkout Feat/frontend
 
-
+yarn install
+yarn start
