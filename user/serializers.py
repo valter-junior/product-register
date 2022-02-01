@@ -8,6 +8,7 @@ from .models import User
 JWT_PAYLOAD_HANDLER = api_settings.JWT_PAYLOAD_HANDLER
 JWT_ENCODE_HANDLER = api_settings.JWT_ENCODE_HANDLER
 
+
 class UserRegisterSerializer(serializers.ModelSerializer):
     
     class Meta:
@@ -19,8 +20,6 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(**validated_data)
 
         return user
-
-
 
 class UserLoginSerializer(serializers.Serializer):
     
