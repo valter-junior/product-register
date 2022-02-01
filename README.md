@@ -29,7 +29,8 @@ python manage.py runserver
 | `POST /signin`| login de usuário | body: `{ email: string, password: string}` | `{ token: string, refresh_token: string }` |
 | `POST /signup` | registro de usuário | body `{ nome: string, email: string, password: string}` | `criado com sucesso`|
 | `POST /product/create` | criar um produto | body `{ name: string}` | `{ id: number, name: string, }` |
-| `POST /product/ordem` | criar uma ordem | body `{ product: foreignkey(id), qtd: number, price: number, pOrS: ((P, compra), (S, venda))}` | `{ id: number, name: string, }` |
+| `POST /product/ordem` | criar uma ordem | body `{ product: foreignkey(id), qtd: number, price: number, pOrS: ((P, compra), (S, venda))}` | `{ id: number, product: foreignkey(id), qtd: number, price: number, pOrS: ((P, compra), (S, venda))}`|
+| `GET /product/ordem-list` | lista todas as ordens | | `{ id: number, product: foreignkey(id), qtd: number, price: number, pOrS: ((P, compra), (S, venda))}`|
 | `GET /product/list` | Lista todos os produtos |  | `{id: id, name: string}` |
 | `GET /product/movement` | Movimento do estoque | | `{name: string, purchase: number, sales: number, qtdStock: number, cost: number, revenues: number, profit: number, }` |
 | `PUT /pruduct/update/{id}` | Edita um produto | body `{name: string}` | `{name: string}` |
@@ -39,7 +40,7 @@ python manage.py runserver
 
 ## Clone o repositório
 Para rodar o projeto será necessário:
-- Você instalar Angular CLI na sua maquina
+- 
 
 git clone https://github.com/valter-junior/product-register.git
 
